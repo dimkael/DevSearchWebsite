@@ -1,24 +1,12 @@
 from django.shortcuts import render
 from .models import Project
+from .forms import ProjectForm
 
 
-projectsList = [
-    {
-        'id': '1',
-        'title': 'Ecommerce Website',
-        'description': 'Fully func ecommerce website'
-    },
-    {
-        'id': '2',
-        'title': 'Portfolio Website',
-        'description': 'This was a project where I built out my portfolio'
-    },
-    {
-        'id': '3',
-        'title': 'Social Network',
-        'description': 'Now i am trying to implemented social network'
-    }
-]
+def create_project(request):
+    form = ProjectForm()
+    context = {'form': form}
+    return render(request, 'projects/project_form.html', context)
 
 
 def projects(request):
