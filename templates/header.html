@@ -1,0 +1,18 @@
+{% load static %}
+
+<header class="header">
+    <div class="container container--narrow">
+        <a href="{% url 'projects' %}" class="header__logo">
+            <img src="{% static 'images/logo.svg' %}" alt="Logo">
+        </a>
+        <nav class="header__nav">
+            <ul class="header__menu">
+                <li class="header__menuItem"><a href="#">Developers</a></li>
+                <li class="header__menuItem"><a href="{% url 'projects' %}">Projects</a></li>
+                <li class="header__menuItem"><a href="#">Inbox</a></li>
+                <li class="header__menuItem"><a href="{% url 'create-project' %}">Add project</a></li>
+                <li class="header__menuItem"><a href="#" class="btn btn--sub">Login/Sign Up</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
