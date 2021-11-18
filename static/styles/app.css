@@ -853,6 +853,10 @@ img {
   margin-top: 2rem;
 }
 
+ul li {
+  list-style-type: none;
+}
+
 
 
 /*=======================
