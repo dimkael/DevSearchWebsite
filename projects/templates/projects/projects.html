@@ -8,7 +8,6 @@
             <div class="hero-section__box">
                 <h2>Search for <span>Projects</span></h2>
             </div>
-
             <div class="hero-section__search">
                 <form class="form" action="#" method="get">
                     <div class="form__field">
@@ -22,7 +21,6 @@
             </div>
         </div>
     </section>
-    <!-- Search Result: DevList -->
     <section class="projectsList">
         <div class="container">
             <div class="grid grid--three">
@@ -40,7 +38,7 @@
                                     </p>
                                     <p class="project--rating">
                                         <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Postitive
-                                        Feedback ({{ project.vote_total }} Votes)
+                                        Feedback ({{ project.vote_total }} Vote{{ project.vote_total|pluralize:"s" }})
                                     </p>
                                     <div class="project__tags">
                                         {% for tag in project.tags.all %}
@@ -58,30 +56,5 @@
         </div>
     </section>
 </main>
-
-    <h1>This is {{ page }} page</h1>
-
-    <table>
-        <tr>
-            <th>Project</th>
-            <th>Votes</th>
-            <th>Positive</th>
-            <th>Date</th>
-            <th>Link</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        {% for project in projects %}
-            <tr>
-                <td>{{ project.title }}</td>
-                <td>{{ project.vote_total }}</td>
-                <td>{{ project.vote_ratio }}%</td>
-                <td>{{ project.created }}</td>
-                <td><a href="{% url 'project' project.id %}">View</a></td>
-                <td><a href="{% url 'update-project' project.id %}">Edit</a></td>
-                <td><a href="{% url 'delete-project' project.id %}">Delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
 
 {% endblock content %}

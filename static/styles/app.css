@@ -427,6 +427,10 @@ img {
   margin-bottom: 4rem;
 }
 
+.singleProject__wrap {
+  margin-bottom: 1rem;
+}
+
 .singleProject__liveLink {
   font-weight: 500;
   transition: all 0.3s ease-in-out;
