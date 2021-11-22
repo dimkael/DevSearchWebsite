@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile, User
+from .forms import CustomUserCreationForm
 
 
 def profiles(request):
@@ -41,7 +41,7 @@ def login_user(request):
         else:
             messages.error(request, 'Username or password is incorrect')
 
-    return render(request, 'users/login_register.html')
+    return render(request, 'users/login.html')
 
 
 def logout_user(request):
@@ -49,3 +49,24 @@ def logout_user(request):
     messages.error(request, 'You are successfully logout')
 
     return redirect('login')
+
+
+def register_user(request):
+    form = CustomUserCreationForm()
+
+    if request.POST:
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, 'User account was successfully created')
+
+            login(request, user)
+            return redirect('profiles')
+        else:
+            messages.error(request, 'An error has occurred during registration')
+
+    context = {'form': form}
+    return render(request, 'users/register.html', context=context)

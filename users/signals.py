@@ -28,5 +28,8 @@ def on_profile_created(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Profile)
 def on_profile_deleted(sender, instance, **kwargs):
-    user = instance.user
-    user.delete()
+    try:
+        user = instance.user
+        user.delete()
+    except:
+        pass
