@@ -4,6 +4,18 @@ from .models import Project
 from .forms import ProjectForm
 
 
+def projects(request):
+    projects = Project.objects.all()
+    context = {'projects': projects}
+    return render(request, 'projects/projects.html', context)
+
+
+def project(request, pk):
+    proj = Project.objects.get(id=pk)
+    context = {'project': proj}
+    return render(request, 'projects/singleproject.html', context)
+
+
 @login_required(login_url='login')
 def create_project(request):
     profile = request.user.profile
@@ -48,16 +60,4 @@ def delete_project(request, pk):
         return redirect('projects')
 
     context = {'object': proj}
-    return render(request, 'projects/delete_template.html', context)
-
-
-def projects(request):
-    projects = Project.objects.all()
-    context = {'projects': projects}
-    return render(request, 'projects/projects.html', context)
-
-
-def project(request, pk):
-    proj = Project.objects.get(id=pk)
-    context = {'project': proj}
-    return render(request, 'projects/singleproject.html', context)
+    return render(request, 'delete_template.html', context)

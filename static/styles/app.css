@@ -656,6 +656,10 @@ img {
   align-items: center;
 }
 
+.auth_reg {
+  height: 120vh;
+}
+
 .auth::after {
   z-index: -1;
   opacity: 0.1;
@@ -670,6 +674,7 @@ img {
 }
 
 .auth > .card {
+  margin: 500px 0;
   padding: 3rem 4rem;
   width: 95%;
   max-width: 65rem;

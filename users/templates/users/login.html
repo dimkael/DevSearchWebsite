@@ -48,12 +48,4 @@
     </div>
 </div>
 
-<form action="{% url 'login' %}" method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Enter your username">
-    <input type="password" name="password" placeholder="Enter your password">
-    <input type="submit" value="Login">
-</form>
-<p>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
-
 {% endblock content %}
