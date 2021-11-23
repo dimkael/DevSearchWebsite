@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile, User
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileForm
 
 
 def profiles(request):
@@ -19,6 +20,31 @@ def user_profile(request, pk):
 
     context = {'profile': profile, 'top_skills': top_skills, 'other_skills': other_skills}
     return render(request, 'users/user_profile.html', context)
+
+
+@login_required(login_url='login')
+def user_account(request):
+    profile = request.user.profile
+    skills = profile.skill_set.all()
+    projects = profile.project_set.all()
+
+    context = {'profile': profile, 'skills': skills, 'projects': projects}
+    return render(request, 'users/account.html', context)
+
+
+@login_required(login_url='login')
+def edit_account(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'users/edit_account.html', context)
 
 
 def login_user(request):
@@ -64,7 +90,7 @@ def register_user(request):
             messages.success(request, 'User account was successfully created')
 
             login(request, user)
-            return redirect('profiles')
+            return redirect('edit_account')
         else:
             messages.error(request, 'An error has occurred during registration')
 

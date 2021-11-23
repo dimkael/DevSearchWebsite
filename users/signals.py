@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 @receiver(post_save, sender=User)
-def on_profile_created(sender, instance, created, **kwargs):
+def on_user_created(sender, instance, created, **kwargs):
     user = instance
 
     if created:
@@ -15,21 +15,34 @@ def on_profile_created(sender, instance, created, **kwargs):
             email=user.email,
             name=user.first_name
         )
-    else:
-        try:
-            profile = Profile.objects.get(username=user.username)
-            if profile:
-                profile.name = user.first_name
-                profile.email = user.email
-                profile.save()
-        except:
-            pass
+
+
+@receiver(post_save, sender=Profile)
+def on_profile_updated(sender, instance, created, **kwargs):
+    profile = instance
+    user = None
+    try:
+        user = profile.user
+    except:
+        pass
+
+    if user and not created:
+        if profile.name:
+            user.first_name = profile.name
+        if profile.username:
+            user.username = profile.username
+        if profile.email:
+            user.email = profile.email
+        user.save()
 
 
 @receiver(post_delete, sender=Profile)
 def on_profile_deleted(sender, instance, **kwargs):
+    user = None
     try:
         user = instance.user
-        user.delete()
     except:
         pass
+
+    if user:
+        user.delete()
