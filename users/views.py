@@ -2,13 +2,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile, User
+from django.db.models import Q
+from .models import Profile, User, Skill
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 
 
 def profiles(request):
-    profiles = Profile.objects.all()
-    context = {'profiles': profiles}
+    search_query = ''
+
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query')
+
+    skills = Skill.objects.filter(name__icontains=search_query)
+
+    profiles = Profile.objects.distinct().filter(
+        Q(name__icontains=search_query) |
+        Q(short_intro__icontains=search_query) |
+        Q(skill__in=skills)
+    )
+    context = {'profiles': profiles, 'search_query': search_query}
     return render(request, 'users/profiles.html', context)
 
 
@@ -19,18 +31,20 @@ def login_user(request):
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
+        user = None
 
         try:
             user = User.objects.get(username=username)
         except:
             messages.error(request, 'Username does not exist')
 
-        user = authenticate(request, username=username, password=password)
         if user:
-            login(request, user)
-            return redirect('profiles')
-        else:
-            messages.error(request, 'Username or password is incorrect')
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                return redirect('profiles')
+            else:
+                messages.error(request, 'Username or password is incorrect')
 
     return render(request, 'users/login.html')
 
