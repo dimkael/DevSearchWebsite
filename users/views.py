@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q
-from .models import Profile, User, Skill
+from .models import Profile, User
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
+from .utils import searchProjects
 
 
 def profiles(request):
@@ -13,13 +13,8 @@ def profiles(request):
     if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
 
-    skills = Skill.objects.filter(name__icontains=search_query)
+    profiles = searchProjects(search_query)
 
-    profiles = Profile.objects.distinct().filter(
-        Q(name__icontains=search_query) |
-        Q(short_intro__icontains=search_query) |
-        Q(skill__in=skills)
-    )
     context = {'profiles': profiles, 'search_query': search_query}
     return render(request, 'users/profiles.html', context)
 
