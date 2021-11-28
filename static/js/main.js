@@ -13,3 +13,12 @@ if (searchFrom) {
         })
     }
 }
+
+let formFields = document.querySelectorAll('.form__field')
+if (formFields) {
+    for (let i = 0; i < formFields.length; i++) {
+        let input = formFields[i].children[1]
+        input.setAttribute('class', 'input input--text')
+        input.setAttribute('placeholder', 'Add text')
+    }
+}

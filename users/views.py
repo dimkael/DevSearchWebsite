@@ -14,7 +14,7 @@ def profiles(request):
         search_query = request.GET.get('search_query')
 
     profiles = searchProjects(search_query)
-    custom_range, profiles = paginateProfiles(request, profiles, 1)
+    custom_range, profiles = paginateProfiles(request, profiles, 9)
 
     context = {'profiles': profiles, 'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'users/profiles.html', context)
@@ -25,7 +25,7 @@ def login_user(request):
         redirect('profiles')
 
     if request.POST:
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
         user = None
 
@@ -38,7 +38,7 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect('profiles')
+                return redirect(request.GET['next'] if 'next' in request.GET else 'account')
             else:
                 messages.error(request, 'Username or password is incorrect')
 

@@ -10,15 +10,6 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['first_name', 'email', 'username', 'password1', 'password2']
         labels = {'first_name': 'Name'}
 
-    def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'input input--text',
-                'placeholder': 'Add text'
-            })
-
 
 class ProfileForm(ModelForm):
     class Meta:
@@ -26,27 +17,9 @@ class ProfileForm(ModelForm):
         fields = '__all__'
         exclude = ['user']
 
-    def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'input input--text',
-                'placeholder': 'Add text'
-            })
-
 
 class SkillForm(ModelForm):
     class Meta:
         model = Skill
         fields = '__all__'
         exclude = ['owner']
-
-    def __init__(self, *args, **kwargs):
-        super(SkillForm, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'input input--text',
-                'placeholder': 'Add text'
-            })
