@@ -12,7 +12,7 @@ def projects(request):
         search_query = request.GET.get('search_query')
 
     projects = searchProjects(search_query)
-    custom_range, projects = paginateProjects(request, projects, 6)
+    custom_range, projects = paginateProjects(request, projects, 1)
 
     context = {
         'projects': projects,

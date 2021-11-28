@@ -4,7 +4,7 @@
         {% if queryset.has_previous %}
             <li>
                 <a href="?page={{ queryset.previous_page_number }}"
-                   class="btn page-link" style="font-size: 0.3rem">
+                   class="btn page-link" data-page="{{ queryset.previous_page_number }}" style="font-size: 0.3rem">
                     <i class="im im-angle-left"></i>
                 </a>
             </li>
@@ -12,16 +12,16 @@
 
         {% for page in custom_range %}
             {% if page == queryset.number %}
-                <li><a href="?page={{ page }}" class="btn btn--sub page-link">{{ page }}</a></li>
+                <li><a href="?page={{ page }}" class="btn btn--sub page-link" data-page="{{ page }}">{{ page }}</a></li>
             {% else %}
-                <li><a href="?page={{ page }}" class="btn page-link">{{ page }}</a></li>
+                <li><a href="?page={{ page }}" class="btn page-link" data-page="{{ page }}">{{ page }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if queryset.has_next %}
             <li>
                 <a href="?page={{ queryset.next_page_number }}"
-                   class="btn page-link" style="font-size: 0.3rem">
+                   class="btn page-link" data-page="{{ queryset.next_page_number }}" style="font-size: 0.3rem">
                     <i class="im im-angle-right"></i>
                 </a>
             </li>
