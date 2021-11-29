@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
-from .models import Profile
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Profile
 
 
 @receiver(post_save, sender=User)
@@ -9,11 +11,22 @@ def on_user_created(sender, instance, created, **kwargs):
     user = instance
 
     if created:
-        Profile.objects.create(
+        profile = Profile.objects.create(
             user=user,
             username=user.username,
             email=user.email,
             name=user.first_name
+        )
+
+        subject = 'Welcome to DevSearch'
+        message = 'You are successfully registered your account. We are glad to see you'
+
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [profile.email],
+            fail_silently=False
         )
 
 

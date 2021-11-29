@@ -733,6 +733,38 @@ img {
 }
 
 /*=======================
+  Password reset
+========================*/
+
+.pass-reset-sent p {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  text-align: left;
+}
+
+.pass_reset_confirm label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.pass_reset_confirm input[type='password'] {
+  min-width: 24rem;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-light);
+  transition: all 0.3s ease-in-out;
+  background-color: var(--color-bg);
+}
+
+.pass_reset_confirm span li {
+  font-weight: 400;
+  font-size: small;
+}
+
+/*=======================
   Inbox
 ========================*/
 
